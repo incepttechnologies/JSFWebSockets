@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!--
+Author: Prasanna Bhale
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+  <h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>JSF and WebSocket Demo using JEE7</title>
+
+    <script type="text/javascript">
+      var host = "ws://localhost:8080/JSFWebSockets/notification";
+      var wSocket = new WebSocket(host);
+      var browserSupport = ("WebSocket" in window) ? true : false;
+      
+      // called  body onLoad()
+      function initializeReception()
+      {
+        if (browserSupport)
+        {
+          wSocket.onopen = function()
+          {
+            //alert(" Web Socket is connected, sending data");
+            wSocket.send("ping");
+          };
+        }
+        else
+        {
+          // The browser doesn't support WebSocket
+          alert("WebSocket is NOT supported by your Browser!");
+        }
+      }
+      
+      // called when a message is received
+      wSocket.onmessage = function(event)
+      {
+        var received_msg = event.data;
+        document.getElementById('headerForm:serverMsg').value = received_msg;
+      };
+      
+      // called when socket closes
+      wSocket.onclose = function()
+      {
+        // websocket is closed.
+        //alert("Connection is closed...");
+      };
+
+
+    </script>
+  </h:head>
+
+  <h:body onload="initializeReception()">
+
+    <div id="top">
+      <h2>Introducing Java EE 7</h2>
+    </div>
+    <div>
+      <div id="left">
+        <h:form id="headerForm">
+          <h:outputText value="Message From Server"/>
+          <h:outputText id="serverMsg" value=""/>
+          <br/><br/>
+        </h:form>
+      </div>
+      <div id="content" class="left_content">
+        <ui:insert name="content">Content</ui:insert>
+      </div>
+    </div>
+
+
+  </h:body>
+
+</html>
