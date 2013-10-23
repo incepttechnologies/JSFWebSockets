@@ -39,6 +39,7 @@ Author: Prasanna Bhale
       wSocket.onmessage = function(event)
       {
         var received_msg = event.data;
+        alert('server msg:' + received_msg);
         document.getElementById('headerForm:serverMsg').value = received_msg;
       };
       
@@ -62,7 +63,7 @@ Author: Prasanna Bhale
       <div id="left">
         <h:form id="headerForm">
           <h:outputText value="Message From Server"/>
-          <h:outputText id="serverMsg" value=""/>
+          <h:outputLabel id="serverMsg" value=""/>
           <br/><br/>
         </h:form>
       </div>
